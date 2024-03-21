@@ -1,5 +1,5 @@
 import unittest
-from main import State, terminal, player, actions
+from main import State, terminal, player, actions, result
 
 class TestTerminal(unittest.TestCase):
     def test_diagonal1(self):
@@ -90,5 +90,24 @@ class TestActions(unittest.TestCase):
         state = State([['X', 'O', 'X'], ['O', 'X', 'O'], ['X', '#', 'O']])
         expected_actions = [(2, 1)]
         self.assertEqual(actions(state), expected_actions)
+
+class TestResult(unittest.TestCase):
+    def test_result_X_wins(self):
+        state = State([['X', 'O', 'X'], ['#', 'O', '#'], ['#', '#', 'O']])
+        move = (1, 0, 'X')
+        expected_result = str(State([['X', 'O', 'X'], ['X', 'O', '#'], ['#', '#', 'O']]))
+        self.assertEqual(str(result(state, move)), expected_result)
+
+    def test_result_O_wins(self):
+        state = State([['O', 'O', 'X'], ['#', 'X', '#'], ['#', '#', 'X']])
+        move = (1, 0, 'O')
+        expected_result = str(State([['O', 'O', 'X'], ['O', 'X', '#'], ['#', '#', 'X']]))
+        self.assertEqual(str(result(state, move)), expected_result)
+
+    def test_result_draw(self):
+        state = State([['X', 'O', 'X'], ['O', 'X', 'X'], ['X', 'X', 'O']])
+        move = (1, 1, 'O')
+        expected_result = str(State([['X', 'O', 'X'], ['O', 'O', 'X'], ['X', 'X', 'O']]))
+        self.assertEqual(str(result(state, move)), expected_result)
 if __name__ == '__main__':
     unittest.main()
