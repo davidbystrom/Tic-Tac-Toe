@@ -1,5 +1,5 @@
 import unittest
-from main import State, terminal, player
+from main import State, terminal, player, actions
 
 class TestTerminal(unittest.TestCase):
     def test_diagonal1(self):
@@ -64,5 +64,31 @@ class TestPlayer(unittest.TestCase):
 
     def test_player_false2(self):
         self.assertFalse(player(State([['O', 'X', 'O'], ['#', 'X', 'O'], ['X', 'O', 'X']])) == 'O')
+
+class TestActions(unittest.TestCase):
+    def test_actions_empty_board(self):
+        state = State()
+        expected_actions = [(0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2), (2, 0), (2, 1), (2, 2)]
+        self.assertEqual(actions(state), expected_actions)
+
+    def test_actions_some_moves_made(self):
+        state = State([['#', '#', 'X'], ['#', 'O', '#'], ['O', '#', 'X']])
+        expected_actions = [(0, 0), (0, 1), (1, 0), (1, 2), (2, 1)]
+        self.assertEqual(actions(state), expected_actions)
+
+    def test_actions_full_board(self):
+        state = State([['X', 'O', 'X'], ['O', 'X', 'O'], ['X', 'X', 'O']])
+        expected_actions = []
+        self.assertEqual(actions(state), expected_actions)
+    
+    def test_actions_alternating_moves(self):
+        state = State([['X', '#', 'O'], ['#', 'X', '#'], ['#', 'O', 'X']])
+        expected_actions = [(0, 1), (1, 0), (1, 2), (2, 0)]
+        self.assertEqual(actions(state), expected_actions)
+
+    def test_actions_almost_full_board(self):
+        state = State([['X', 'O', 'X'], ['O', 'X', 'O'], ['X', '#', 'O']])
+        expected_actions = [(2, 1)]
+        self.assertEqual(actions(state), expected_actions)
 if __name__ == '__main__':
     unittest.main()
