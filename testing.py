@@ -1,5 +1,5 @@
 import unittest
-from main import State, terminal
+from main import State, terminal, player
 
 class TestTerminal(unittest.TestCase):
     def test_diagonal1(self):
@@ -40,6 +40,29 @@ class TestTerminal(unittest.TestCase):
         self.assertFalse(terminal(State([['X', 'O', 'O'], ['O', 'X', 'X'], ['X', 'X', 'O']])))
         self.assertFalse(terminal(State([['X', 'O', 'X'], ['O', 'X', 'O'], ['O', 'X', 'O']])))
         self.assertFalse(terminal(State([['X', 'O', 'X'], ['X', 'X', 'O'], ['O', 'X', 'O']])))
+class TestPlayer(unittest.TestCase):
+    def test_player_true1(self):
+        self.assertTrue(player(State([['X', 'O', '#'],['#', 'X', '#'],['#', 'X', 'O']])) ==  'O')
+    
+    def test_player_true2(self):
+        self.assertTrue(player(State([['O', 'X', '#'],['X', 'O', 'O'],['#', 'X', 'X']])) == 'O')
+    
+    def test_player_true3(self):
+        self.assertTrue(player(State([['X', '#', '#'], ['#', '#', '#'], ['#', '#', '#']])) == 'O')
 
+    def test_player_true4(self):
+        self.assertTrue(player(State([['#', 'X', '#'], ['#', '#', '#'], ['#', '#', '#']])) == 'O')
+
+    def test_player_true5(self):
+        self.assertTrue(player(State([['#', '#', 'X'], ['#', '#', '#'], ['#', '#', '#']])) == 'O')
+
+    def test_player_true6(self):
+        self.assertTrue(player(State([['#', '#', '#'], ['#', '#', '#'], ['#', '#', '#']])) == 'X')
+    
+    def test_player_false1(self):
+        self.assertFalse(player(State([['X', 'O', 'X'], ['#', '#', 'X'], ['O', 'X', 'O']])) == 'X')
+
+    def test_player_false2(self):
+        self.assertFalse(player(State([['O', 'X', 'O'], ['#', 'X', 'O'], ['X', 'O', 'X']])) == 'O')
 if __name__ == '__main__':
     unittest.main()
